@@ -27,7 +27,7 @@ class AppTheme {
       // Change elevated button theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.red,
+          foregroundColor: Colors.white,
           backgroundColor: ThemeConstant.primaryColor,
           textStyle: const TextStyle(
             fontSize: 20,
@@ -49,7 +49,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.red,
+            color: ThemeConstant.primaryColor,
           ),
         ),
       ),

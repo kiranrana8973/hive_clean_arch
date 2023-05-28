@@ -5,8 +5,8 @@ import '../entity/batch.dart';
 
 abstract class BatchRepository {
   Future<Either<Failure, List<Batch>>> getBatches();
-  Future<Either<Failure, Batch>> getBatch(int id);
+  Future<Either<Failure, Batch>> getBatch(String batchId);
   Future<Either<Failure, bool>> createBatch(Batch batch);
   Future<Either<Failure, bool>> updateBatch(Batch batch);
-  Future<Either<Failure, bool>> deleteBatch(int id);
+  Future<Either<Failure, bool>> deleteBatch(String batchId);
 }

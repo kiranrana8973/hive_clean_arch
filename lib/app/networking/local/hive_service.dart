@@ -1,15 +1,16 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_clean_arch/config/constants/hive_constant.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../features/auth/domain/entity/student.dart';
 import '../../../features/batch/domain/entity/batch.dart';
-import '../../../features/course/domain/course.dart';
+import '../../../features/course/domain/entity/course.dart';
 
 class HiveService {
+  static const String studentBox = 'studentBox';
+  static const String batchBox = 'batchBox';
+  static const String courseBox = 'courseBox';
   // initialize Hive with database name
   Future<void> init() async {
     var directory = await getApplicationDocumentsDirectory();
@@ -32,7 +33,7 @@ class HiveService {
   // Insert batch dummy data
   Future<void> addDummybatch() async {
     // check of batch box is empty
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
+    var box = await Hive.openBox<Batch>(batchBox);
     if (box.isEmpty) {
       final batch1 = Batch(batchName: '29-A');
       final batch2 = Batch(batchName: '29-B');
@@ -47,7 +48,7 @@ class HiveService {
 
   // Insert Dummy courses
   Future<void> addDummyCourses() async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
+    var box = await Hive.openBox<Course>(courseBox);
     if (box.isEmpty) {
       final course1 = Course(courseName: 'Flutter');
       final course2 = Course(courseName: 'Android');
@@ -71,101 +72,101 @@ class HiveService {
 
   // --------------------Batch Box--------------------
   Future<void> addBatch(Batch batch) async {
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
+    var box = await Hive.openBox<Batch>(batchBox);
     await box.put(batch.batchId, batch);
   }
 
   Future<void> addBatches(List<Batch> batches) async {
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
+    var box = await Hive.openBox<Batch>(batchBox);
     for (var batch in batches) {
       await box.put(batch.batchId, batch);
     }
   }
 
+  Future<Batch> getBatch(String batchId) async {
+    var box = await Hive.openBox<Batch>(batchBox);
+    return box.get(batchId) ?? Batch(batchId: '', batchName: '');
+  }
+
   Future<List<Batch>> getBatches() async {
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
+    var box = await Hive.openBox<Batch>(batchBox);
     return box.values.toList();
   }
 
   Future<void> updateBatch(Batch batch) async {
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
+    var box = await Hive.openBox<Batch>(batchBox);
     await box.put(batch.batchId, batch);
   }
 
-  Future<void> deleteBatch(Batch batch) async {
-    var box = await Hive.openBox<Batch>(HiveConstant.batchBox);
-    await box.delete(batch.batchId);
+  Future<void> deleteBatch(String batchId) async {
+    var box = await Hive.openBox<Batch>(batchBox);
+    await box.delete(batchId);
   }
 
   // --------------------Course Box--------------------
   Future<void> addCourse(Course course) async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
+    var box = await Hive.openBox<Course>(courseBox);
     await box.put(course.courseId, course);
   }
 
   // Add multiple course with a key
   Future<void> addCourses(List<Course> courses) async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
+    var box = await Hive.openBox<Course>(courseBox);
     for (var course in courses) {
       await box.put(course.courseId, course);
     }
   }
 
   Future<List<Course>> getCourses() async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
+    var box = await Hive.openBox<Course>(courseBox);
     return box.values.toList();
   }
 
   Future<void> updateCourse(Course course) async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
+    var box = await Hive.openBox<Course>(courseBox);
     await box.put(course.courseId, course);
   }
 
-  Future<void> deleteCourse(String id) async {
-    var box = await Hive.openBox<Course>(HiveConstant.courseBox);
-    await box.delete(id);
+  Future<void> deleteCourse(String courseId) async {
+    var box = await Hive.openBox<Course>(courseBox);
+    await box.delete(courseId);
   }
 
   // --------------------Student Box--------------------
   Future<void> addStudent(Student student) async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     await box.add(student);
   }
 
   Future<List<Student>> getStudents() async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     return box.values.toList();
   }
 
   Future<void> updateStudent(Student student) async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     await box.put(student.id, student);
   }
 
   Future<void> deleteStudent(Student student) async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     await box.delete(student.id);
   }
 
   // Login
   Future<bool> login(String username, String password) async {
-    try {
-      var box = await Hive.openBox<Student>(HiveConstant.studentBox);
-      box.values.toList().map((e) {
-        if (e.username == username && e.password == password) {
-          return true;
-        }
-      });
-      return false;
-    } catch (e) {
-      debugPrint('Error: $e');
-      return false;
-    }
+    var box = await Hive.openBox<Student>(studentBox);
+    box.values.toList().map((e) {
+      if (e.username == username && e.password == password) {
+        return true;
+      }
+    });
+    return false;
   }
 
   // --------------------Batch Student--------------------
   Future<List<Student>> getStudentsByBatch(String batchId) async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     return box.values
         .where((element) => element.batch!.batchId == batchId)
         .toList();
@@ -173,7 +174,7 @@ class HiveService {
 
   // --------------------Course Student--------------------
   Future<List<Student>> getStudentsByCourse(String courseId) async {
-    var box = await Hive.openBox<Student>(HiveConstant.studentBox);
+    var box = await Hive.openBox<Student>(studentBox);
     return box.values.where((element) => element.course == courseId).toList();
   }
 
@@ -185,12 +186,8 @@ class HiveService {
 
   // Delete Hive database
   Future<void> deleteHiveDatabase() async {
-    try {
-      closeAllBoxes();
-      var dir = await getApplicationDocumentsDirectory();
-      await Directory(dir.path).delete(recursive: true);
-    } catch (e) {
-      print('Error: $e');
-    }
+    closeAllBoxes();
+    var dir = await getApplicationDocumentsDirectory();
+    await Directory(dir.path).delete(recursive: true);
   }
 }

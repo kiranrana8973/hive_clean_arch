@@ -1,6 +1,6 @@
-import '../../features/auth/presentation/login_view.dart';
-import '../../features/auth/presentation/register_view.dart';
-import '../../features/splash/presentation/splash_view.dart';
+import '../../features/auth/ui/login/login_view.dart';
+import '../../features/auth/ui/register/register_view.dart';
+import '../../features/splash/ui/splash_view.dart';
 
 class AppRoute {
   AppRoute._();

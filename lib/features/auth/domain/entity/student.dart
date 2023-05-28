@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../batch/domain/entity/batch.dart';
-import '../../../course/domain/course.dart';
+import '../../../course/domain/entity/course.dart';
 
 part 'student.g.dart';
 

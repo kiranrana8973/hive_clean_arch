@@ -1,31 +1,23 @@
 import 'package:dartz/dartz.dart';
 import 'package:hive_clean_arch/app/error/failure.dart';
-import 'package:hive_clean_arch/app/networking/local/hive_service.dart';
 import 'package:hive_clean_arch/features/batch/domain/entity/batch.dart';
 import 'package:hive_clean_arch/features/batch/domain/repository/batch_repository.dart';
 
 class BatchRemoteRepository implements BatchRepository {
-  final HiveService _hiveService;
-
-  BatchRemoteRepository(this._hiveService);
-
   @override
-  Future<Either<Failure, bool>> createBatch(Batch batch) async {
-    try {
-      _hiveService.addBatch(batch);
-      return const Right(true);
-    } catch (e) {
-      return Left(Failure(message: e.toString()));
-    }
+  Future<Either<Failure, bool>> createBatch(Batch batch) {
+    // TODO: implement createBatch
+    throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, bool>> deleteBatch(int id) async {
-    return const Right(true);
+  Future<Either<Failure, bool>> deleteBatch(String batchId) {
+    // TODO: implement deleteBatch
+    throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, Batch>> getBatch(int id) {
+  Future<Either<Failure, Batch>> getBatch(String batchId) {
     // TODO: implement getBatch
     throw UnimplementedError();
   }
