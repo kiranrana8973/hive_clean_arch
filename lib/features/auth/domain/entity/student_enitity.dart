@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:hive_clean_arch/features/batch/domain/entity/batch_entity.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../batch/domain/entity/batch.dart';
 import '../../../course/domain/entity/course.dart';
 
-part 'student.g.dart';
+part 'student_enitity.g.dart';
 
 @HiveType(typeId: 1)
 class Student extends HiveObject {
@@ -20,7 +20,7 @@ class Student extends HiveObject {
   final String? lname;
 
   @HiveField(3)
-  final Batch? batch;
+  final BatchEntity? batch;
 
   @HiveField(4)
   final List<Course> course;

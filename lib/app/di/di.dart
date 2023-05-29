@@ -5,6 +5,7 @@ import 'package:hive_clean_arch/features/auth/ui/register/register_navigator.dar
 import 'package:hive_clean_arch/features/batch/data/repositories/batch_local_repository.dart';
 import 'package:hive_clean_arch/features/batch/domain/repository/batch_repository.dart';
 
+import '../../features/batch/data/models/batch_hive_model.dart';
 import '../../features/course/data/repository/course_local_repository.dart';
 import '../../features/course/domain/repository/course_repository.dart';
 
@@ -16,9 +17,14 @@ void setUpLocator() {
     () => HiveService(),
   );
 
+  // Hive model
+  getIt.registerLazySingleton<BatchHiveModel>(
+    () => BatchHiveModel.empty(),
+  );
+
   // Repositories
   getIt.registerLazySingleton<BatchRepository>(
-      () => BatchLocalRepository(getIt()));
+      () => BatchLocalRepository(getIt(), getIt()));
 
   getIt.registerLazySingleton<CourseRepository>(
       () => CourseLocalRepository(getIt()));

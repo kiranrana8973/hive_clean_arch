@@ -20,7 +20,7 @@ class StudentAdapter extends TypeAdapter<Student> {
       id: fields[0] as String?,
       fname: fields[1] as String?,
       lname: fields[2] as String?,
-      batch: fields[3] as Batch?,
+      batch: fields[3] as BatchEntity?,
       course: (fields[4] as List).cast<Course>(),
       phone: fields[5] as String?,
       username: fields[6] as String?,

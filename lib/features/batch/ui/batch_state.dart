@@ -1,8 +1,8 @@
-import '../domain/entity/batch.dart';
+import '../domain/entity/batch_entity.dart';
 
 class BatchState {
-  final List<Batch> batches;
-  final Batch? batch;
+  final List<BatchEntity> batches;
+  final BatchEntity? batch;
   final bool isLoading;
   final String? error;
 
@@ -21,8 +21,8 @@ class BatchState {
   }
 
   BatchState copyWith({
-    List<Batch>? batches,
-    Batch? batch,
+    List<BatchEntity>? batches,
+    BatchEntity? batch,
     bool? isLoading,
     String? error,
   }) {

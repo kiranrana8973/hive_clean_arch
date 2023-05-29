@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../features/auth/domain/entity/student_enitity.dart';
-import '../../../features/batch/domain/entity/batch.dart';
+import '../../../features/batch/data/models/batch_hive_model.dart';
 import '../../../features/course/domain/entity/course.dart';
 
 class HiveService {
@@ -28,21 +28,21 @@ class HiveService {
   // Register Adapter
   void registerAdapters() {
     Hive.registerAdapter<Student>(StudentAdapter());
-    Hive.registerAdapter<Batch>(BatchAdapter());
+    Hive.registerAdapter<BatchHiveModel>(BatchHiveModelAdapter());
     Hive.registerAdapter<Course>(CourseAdapter());
   }
 
   // Insert batch dummy data
   Future<void> addDummybatch() async {
     // check of batch box is empty
-    var box = await Hive.openBox<Batch>(batchBox);
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     if (box.isEmpty) {
-      final batch1 = Batch(batchName: '29-A');
-      final batch2 = Batch(batchName: '29-B');
-      final batch3 = Batch(batchName: '30-A');
-      final batch4 = Batch(batchName: '30-B');
+      final batch1 = BatchHiveModel(batchName: '29-A');
+      final batch2 = BatchHiveModel(batchName: '29-B');
+      final batch3 = BatchHiveModel(batchName: '30-A');
+      final batch4 = BatchHiveModel(batchName: '30-B');
 
-      List<Batch> batches = [batch1, batch2, batch3, batch4];
+      List<BatchHiveModel> batches = [batch1, batch2, batch3, batch4];
 
       addBatches(batches);
     }
@@ -72,36 +72,36 @@ class HiveService {
     }
   }
 
-  // --------------------Batch Box--------------------
-  Future<void> addBatch(Batch batch) async {
-    var box = await Hive.openBox<Batch>(batchBox);
+  // --------------------BatchHiveModel Box--------------------
+  Future<void> addBatch(BatchHiveModel batch) async {
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     await box.put(batch.batchId, batch);
   }
 
-  Future<void> addBatches(List<Batch> batches) async {
-    var box = await Hive.openBox<Batch>(batchBox);
+  Future<void> addBatches(List<BatchHiveModel> batches) async {
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     for (var batch in batches) {
       await box.put(batch.batchId, batch);
     }
   }
 
-  Future<Batch> getBatch(String batchId) async {
-    var box = await Hive.openBox<Batch>(batchBox);
-    return box.get(batchId) ?? Batch(batchId: '', batchName: '');
+  Future<BatchHiveModel> getBatch(String batchId) async {
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
+    return box.get(batchId) ?? BatchHiveModel(batchId: '', batchName: '');
   }
 
-  Future<List<Batch>> getBatches() async {
-    var box = await Hive.openBox<Batch>(batchBox);
+  Future<List<BatchHiveModel>> getBatches() async {
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     return box.values.toList();
   }
 
-  Future<void> updateBatch(Batch batch) async {
-    var box = await Hive.openBox<Batch>(batchBox);
+  Future<void> updateBatch(BatchHiveModel batch) async {
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     await box.put(batch.batchId, batch);
   }
 
   Future<void> deleteBatch(String batchId) async {
-    var box = await Hive.openBox<Batch>(batchBox);
+    var box = await Hive.openBox<BatchHiveModel>(batchBox);
     await box.delete(batchId);
   }
 
@@ -166,7 +166,7 @@ class HiveService {
     return false;
   }
 
-  // --------------------Batch Student--------------------
+  // --------------------BatchHiveModel Student--------------------
   Future<List<Student>> getStudentsByBatch(String batchId) async {
     var box = await Hive.openBox<Student>(studentBox);
     return box.values

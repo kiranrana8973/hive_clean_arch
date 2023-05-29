@@ -5,7 +5,7 @@ import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
 import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-import '../../../batch/domain/entity/batch.dart';
+import '../../../batch/domain/entity/batch_entity.dart';
 import '../../../batch/ui/batch_state.dart';
 import '../../../course/domain/entity/course.dart';
 import '../../../course/ui/course_state.dart';
@@ -33,7 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
     cubit.navigator.context = context;
   }
 
-  Batch? _dropDownValue;
+  BatchEntity? _dropDownValue;
   final List<Course> _lstCourseSelected = [];
 
   final _gap = const SizedBox(height: 8);
