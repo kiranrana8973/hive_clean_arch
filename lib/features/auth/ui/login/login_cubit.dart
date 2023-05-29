@@ -9,4 +9,8 @@ class LoginCubit extends Cubit<LoginState> {
   onTapRegister() {
     navigator.openRegisterViewRoute();
   }
+
+  onTapHome() {
+    navigator.openHomeRoute();
+  }
 }

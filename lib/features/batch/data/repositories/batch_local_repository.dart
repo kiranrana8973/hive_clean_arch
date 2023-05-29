@@ -40,7 +40,7 @@ class BatchLocalRepository implements BatchRepository {
   }
 
   @override
-  Future<Either<Failure, List<Batch>>> getBatches() async {
+  Future<Either<Failure, List<Batch>>> getAllBatches() async {
     try {
       final batches = await _hiveService.getBatches();
       return Right(batches);

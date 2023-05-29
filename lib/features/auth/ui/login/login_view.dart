@@ -74,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
                     _gap,
                     ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {}
+                        cubit.onTapHome();
                       },
                       child: const SizedBox(
                         height: 50,
@@ -91,11 +91,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     const SizedBox(height: 8),
                     ElevatedButton(
-                      // style: ElevatedButton.styleFrom(
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(30.0),
-                      //   ),
-                      // ),
                       onPressed: () {
                         cubit.onTapRegister();
                       },

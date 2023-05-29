@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_clean_arch/features/auth/ui/register/register_cubit.dart';
+import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
+import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../batch/domain/entity/batch.dart';
+import '../../../batch/ui/batch_state.dart';
 import '../../../course/domain/entity/course.dart';
-import '../../domain/entity/student.dart';
+import '../../../course/ui/course_state.dart';
+import '../../domain/entity/student_enitity.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -15,11 +20,16 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   late RegisterCubit cubit;
+  late CourseCubit courseCubit;
+  late BatchCubit batchCubit;
 
   @override
   void initState() {
     cubit = BlocProvider.of<RegisterCubit>(context);
+    courseCubit = BlocProvider.of<CourseCubit>(context);
+    batchCubit = BlocProvider.of<BatchCubit>(context);
     super.initState();
+    // We are passing context for the navigation
     cubit.navigator.context = context;
   }
 
@@ -111,79 +121,80 @@ class _RegisterViewState extends State<RegisterView> {
                     }),
                   ),
                   _gap,
-                  // FutureBuilder(
-                  //   future: HiveService.instance.getBatches(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       final data = snapshot.data as List<Batch>;
-                  //       return DropdownButtonFormField<Batch>(
-                  //         value: _dropDownValue,
-                  //         onChanged: (value) {
-                  //           setState(() {
-                  //             _dropDownValue = value;
-                  //           });
-                  //         },
-                  //         items: data
-                  //             .map(
-                  //               (e) => DropdownMenuItem(
-                  //                 value: e,
-                  //                 child: Text(e.batchName),
-                  //               ),
-                  //             )
-                  //             .toList(),
-                  //         decoration: const InputDecoration(
-                  //           labelText: 'Batch',
-                  //         ),
-                  //         validator: ((value) {
-                  //           if (value == null) {
-                  //             return 'Please select batch';
-                  //           }
-                  //           return null;
-                  //         }),
-                  //       );
-                  //     }
-                  //     return const CircularProgressIndicator();
-                  //   },
-                  // ),
+                  BlocBuilder(
+                    bloc: batchCubit,
+                    builder: (context, state) {
+                      final batchState = state as BatchState;
+                      if (batchState.error != null) {
+                        return Center(
+                          child: Text(batchState.error!),
+                        );
+                      }
+
+                      return batchState.isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : DropdownButtonFormField(
+                              items: batchState.batches
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e.batchName),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                _dropDownValue = value;
+                              },
+                              value: _dropDownValue,
+                              decoration: const InputDecoration(
+                                labelText: 'Select batch',
+                              ),
+                            );
+                    },
+                  ),
                   _gap,
-                  // FutureBuilder(
-                  //   future: HiveService.instance.getCourses(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       return MultiSelectDialogField(
-                  //         title: const Text('Select course'),
-                  //         items: snapshot.data!
-                  //             .map((course) => MultiSelectItem(
-                  //                   course,
-                  //                   course.courseName!,
-                  //                 ))
-                  //             .toList(),
-                  //         listType: MultiSelectListType.CHIP,
-                  //         buttonText: const Text('Select course'),
-                  //         buttonIcon: const Icon(Icons.search),
-                  //         onConfirm: (values) {
-                  //           _lstCourseSelected = values;
-                  //         },
-                  //         decoration: BoxDecoration(
-                  //           border: Border.all(
-                  //             color: Colors.grey,
-                  //           ),
-                  //           borderRadius: BorderRadius.circular(5),
-                  //         ),
-                  //         validator: ((value) {
-                  //           if (value == null || value.isEmpty) {
-                  //             return 'Please select course';
-                  //           }
-                  //           return null;
-                  //         }),
-                  //       );
-                  //     } else {
-                  //       return const Center(
-                  //         child: CircularProgressIndicator(),
-                  //       );
-                  //     }
-                  //   },
-                  // ),
+                  BlocBuilder(
+                    bloc: courseCubit,
+                    builder: (context, state) {
+                      final courseState = state as CourseState;
+                      if (courseState.error != null) {
+                        return Center(
+                          child: Text(courseState.error!),
+                        );
+                      }
+
+                      return state.isLoading
+                          ? const CircularProgressIndicator()
+                          : MultiSelectDialogField(
+                              title: const Text('Select course'),
+                              items: courseState.courses
+                                  .map((course) => MultiSelectItem(
+                                        course,
+                                        course.courseName!,
+                                      ))
+                                  .toList(),
+                              listType: MultiSelectListType.CHIP,
+                              buttonText: const Text('Select course'),
+                              buttonIcon: const Icon(Icons.search),
+                              onConfirm: (values) {
+                                _lstCourseSelected.clear();
+                                _lstCourseSelected.addAll(values);
+                              },
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select course';
+                                }
+                                return null;
+                              }),
+                            );
+                    },
+                  ),
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(

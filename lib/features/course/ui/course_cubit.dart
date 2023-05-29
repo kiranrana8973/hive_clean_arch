@@ -4,7 +4,9 @@ import 'package:hive_clean_arch/features/course/ui/course_state.dart';
 
 class CourseCubit extends Cubit<CourseState> {
   final CourseRepository courseRepository;
-  CourseCubit(this.courseRepository) : super(CourseState.initial());
+  CourseCubit(this.courseRepository) : super(CourseState.initial()) {
+    getAllCourses();
+  }
 
   void getAllCourses() async {
     emit(state.copyWith(isLoading: true));

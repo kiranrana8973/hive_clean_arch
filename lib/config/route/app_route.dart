@@ -1,5 +1,6 @@
 import '../../features/auth/ui/login/login_view.dart';
 import '../../features/auth/ui/register/register_view.dart';
+import '../../features/home/ui/dashboard.dart';
 import '../../features/splash/ui/splash_view.dart';
 
 class AppRoute {
@@ -14,6 +15,7 @@ class AppRoute {
     return {
       splashRoute: (context) => const SplashView(),
       loginRoute: (context) => const LoginView(),
+      homeRoute: (context) => const HomeView(),
       registerRoute: (context) => const RegisterView(),
     };
   }

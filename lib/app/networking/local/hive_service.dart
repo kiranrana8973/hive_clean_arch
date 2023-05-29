@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../../features/auth/domain/entity/student.dart';
+import '../../../features/auth/domain/entity/student_enitity.dart';
 import '../../../features/batch/domain/entity/batch.dart';
 import '../../../features/course/domain/entity/course.dart';
 
@@ -11,14 +11,16 @@ class HiveService {
   static const String studentBox = 'studentBox';
   static const String batchBox = 'batchBox';
   static const String courseBox = 'courseBox';
+
   // initialize Hive with database name
   Future<void> init() async {
     var directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
+
     // Register the adapters
     registerAdapters();
 
-    // Add batches
+    // Add dummy data
     addDummybatch();
     addDummyCourses();
   }
@@ -133,7 +135,7 @@ class HiveService {
   }
 
   // --------------------Student Box--------------------
-  Future<void> addStudent(Student student) async {
+  Future<void> registerStudent(Student student) async {
     var box = await Hive.openBox<Student>(studentBox);
     await box.add(student);
   }

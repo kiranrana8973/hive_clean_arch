@@ -11,16 +11,19 @@ import '../../features/course/domain/repository/course_repository.dart';
 final getIt = GetIt.instance;
 
 void setUpLocator() {
+  // Hive Service
   getIt.registerLazySingleton<HiveService>(
     () => HiveService(),
   );
 
+  // Repositories
   getIt.registerLazySingleton<BatchRepository>(
       () => BatchLocalRepository(getIt()));
 
   getIt.registerLazySingleton<CourseRepository>(
       () => CourseLocalRepository(getIt()));
 
+  // Navigators
   getIt.registerLazySingleton<LoginNavigator>(() => LoginNavigator());
   getIt.registerLazySingleton<RegisterNavigator>(() => RegisterNavigator());
 }

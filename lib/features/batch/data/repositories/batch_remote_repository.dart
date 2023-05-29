@@ -23,7 +23,7 @@ class BatchRemoteRepository implements BatchRepository {
   }
 
   @override
-  Future<Either<Failure, List<Batch>>> getBatches() {
+  Future<Either<Failure, List<Batch>>> getAllBatches() {
     // TODO: implement getBatches
     throw UnimplementedError();
   }
