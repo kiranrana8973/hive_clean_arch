@@ -23,11 +23,6 @@ class BatchHiveModel {
       : batchId = const Uuid().v4(),
         batchName = '';
 
-  @override
-  String toString() {
-    return 'Batch{batchId: $batchId, batchName: $batchName}';
-  }
-
   // Convert to BatchEntity from BatchHiveModel
   BatchEntity toBatchEntity() {
     return BatchEntity(
@@ -42,10 +37,15 @@ class BatchHiveModel {
   }
 
   // Convert to BatchHiveModel from BatchEntity
-  castFromEntity(BatchEntity batch) {
+  BatchHiveModel castFromEntity(BatchEntity batch) {
     return BatchHiveModel(
       batchId: batch.batchId,
       batchName: batch.batchName,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Batch{batchId: $batchId, batchName: $batchName}';
   }
 }

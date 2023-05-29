@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:hive/hive.dart';
+import 'package:hive_clean_arch/features/course/data/models/course_hive_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../../features/auth/domain/entity/student_enitity.dart';
 import '../../../features/batch/data/models/batch_hive_model.dart';
-import '../../../features/course/domain/entity/course.dart';
 
 class HiveService {
   static const String studentBox = 'studentBox';
@@ -29,7 +29,7 @@ class HiveService {
   void registerAdapters() {
     Hive.registerAdapter<Student>(StudentAdapter());
     Hive.registerAdapter<BatchHiveModel>(BatchHiveModelAdapter());
-    Hive.registerAdapter<Course>(CourseAdapter());
+    Hive.registerAdapter<CourseHiveModel>(CourseHiveModelAdapter());
   }
 
   // Insert batch dummy data
@@ -50,16 +50,16 @@ class HiveService {
 
   // Insert Dummy courses
   Future<void> addDummyCourses() async {
-    var box = await Hive.openBox<Course>(courseBox);
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     if (box.isEmpty) {
-      final course1 = Course(courseName: 'Flutter');
-      final course2 = Course(courseName: 'Android');
-      final course3 = Course(courseName: 'iOS');
-      final course4 = Course(courseName: 'React Native');
-      final course5 = Course(courseName: 'React JS');
-      final course6 = Course(courseName: 'Node JS');
+      final course1 = CourseHiveModel(courseName: 'Flutter');
+      final course2 = CourseHiveModel(courseName: 'Android');
+      final course3 = CourseHiveModel(courseName: 'iOS');
+      final course4 = CourseHiveModel(courseName: 'React Native');
+      final course5 = CourseHiveModel(courseName: 'React JS');
+      final course6 = CourseHiveModel(courseName: 'Node JS');
 
-      List<Course> courses = [
+      List<CourseHiveModel> courses = [
         course1,
         course2,
         course3,
@@ -105,32 +105,32 @@ class HiveService {
     await box.delete(batchId);
   }
 
-  // --------------------Course Box--------------------
-  Future<void> addCourse(Course course) async {
-    var box = await Hive.openBox<Course>(courseBox);
+  // --------------------CourseHiveModel Box--------------------
+  Future<void> addCourse(CourseHiveModel course) async {
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     await box.put(course.courseId, course);
   }
 
   // Add multiple course with a key
-  Future<void> addCourses(List<Course> courses) async {
-    var box = await Hive.openBox<Course>(courseBox);
+  Future<void> addCourses(List<CourseHiveModel> courses) async {
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     for (var course in courses) {
       await box.put(course.courseId, course);
     }
   }
 
-  Future<List<Course>> getCourses() async {
-    var box = await Hive.openBox<Course>(courseBox);
+  Future<List<CourseHiveModel>> getCourses() async {
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     return box.values.toList();
   }
 
-  Future<void> updateCourse(Course course) async {
-    var box = await Hive.openBox<Course>(courseBox);
+  Future<void> updateCourse(CourseHiveModel course) async {
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     await box.put(course.courseId, course);
   }
 
   Future<void> deleteCourse(String courseId) async {
-    var box = await Hive.openBox<Course>(courseBox);
+    var box = await Hive.openBox<CourseHiveModel>(courseBox);
     await box.delete(courseId);
   }
 
@@ -174,7 +174,7 @@ class HiveService {
         .toList();
   }
 
-  // --------------------Course Student--------------------
+  // --------------------CourseHiveModel Student--------------------
   Future<List<Student>> getStudentsByCourse(String courseId) async {
     var box = await Hive.openBox<Student>(studentBox);
     return box.values.where((element) => element.course == courseId).toList();

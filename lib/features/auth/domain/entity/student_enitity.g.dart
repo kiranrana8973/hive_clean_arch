@@ -21,7 +21,7 @@ class StudentAdapter extends TypeAdapter<Student> {
       fname: fields[1] as String?,
       lname: fields[2] as String?,
       batch: fields[3] as BatchEntity?,
-      course: (fields[4] as List).cast<Course>(),
+      course: (fields[4] as List).cast<CourseEntity>(),
       phone: fields[5] as String?,
       username: fields[6] as String?,
       password: fields[7] as String?,

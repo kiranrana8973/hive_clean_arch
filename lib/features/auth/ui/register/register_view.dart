@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_clean_arch/features/auth/ui/register/register_cubit.dart';
 import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
+import 'package:hive_clean_arch/features/course/domain/entity/course.dart';
 import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../batch/domain/entity/batch_entity.dart';
 import '../../../batch/ui/batch_state.dart';
-import '../../../course/domain/entity/course.dart';
 import '../../../course/ui/course_state.dart';
 
 class RegisterView extends StatefulWidget {
@@ -33,7 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   BatchEntity? _dropDownValue;
-  final List<Course> _lstCourseSelected = [];
+  final List<CourseEntity> _lstCourseSelected = [];
 
   final _gap = const SizedBox(height: 8);
 

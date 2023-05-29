@@ -1,7 +1,7 @@
 import '../domain/entity/course.dart';
 
 class CourseState {
-  final List<Course> courses;
+  final List<CourseEntity> courses;
   final bool isLoading;
   final String? error;
 
@@ -19,7 +19,7 @@ class CourseState {
   }
 
   CourseState copyWith({
-    List<Course>? courses,
+    List<CourseEntity>? courses,
     bool? isLoading,
     String? error,
   }) {

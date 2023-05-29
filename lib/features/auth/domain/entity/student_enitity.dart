@@ -23,7 +23,7 @@ class Student extends HiveObject {
   final BatchEntity? batch;
 
   @HiveField(4)
-  final List<Course> course;
+  final List<CourseEntity> course;
 
   @HiveField(5)
   final String? phone;

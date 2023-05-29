@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_clean_arch/app/app.dart';
 import 'package:hive_clean_arch/features/batch/domain/usecase/batch_usecase.dart';
 import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
-import 'package:hive_clean_arch/features/course/domain/repository/course_repository.dart';
+import 'package:hive_clean_arch/features/course/domain/usecase/course_usecase.dart';
 import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
 
 import 'app/di/di.dart';
@@ -34,7 +34,7 @@ void main() {
         ),
         BlocProvider<CourseCubit>(
           create: (context) => CourseCubit(
-            getIt.get<CourseRepository>(),
+            getIt.get<CourseUseCase>(),
           ),
         ),
         BlocProvider(
