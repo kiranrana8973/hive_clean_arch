@@ -1,23 +1,35 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_clean_arch/app/networking/local/hive_service.dart';
+import 'package:hive_clean_arch/app/networking/remote/dio_client.dart';
 import 'package:hive_clean_arch/features/auth/ui/login/login_navigator.dart';
 import 'package:hive_clean_arch/features/auth/ui/register/register_navigator.dart';
-import 'package:hive_clean_arch/features/batch/data/repositories/batch_local_repository.dart';
+import 'package:hive_clean_arch/features/batch/data/models/batch_api_model.dart';
+import 'package:hive_clean_arch/features/batch/data/models/batch_hive_model.dart';
 import 'package:hive_clean_arch/features/batch/domain/repository/batch_repository.dart';
+import 'package:hive_clean_arch/features/batch/domain/usecase/batch_usecase.dart';
+import 'package:hive_clean_arch/features/course/data/models/course_hive_model.dart';
+import 'package:hive_clean_arch/features/course/data/repository/course_local_repository.dart';
+import 'package:hive_clean_arch/features/course/domain/repository/course_repository.dart';
 import 'package:hive_clean_arch/features/course/domain/usecase/course_usecase.dart';
 
-import '../../features/batch/data/models/batch_hive_model.dart';
-import '../../features/batch/domain/usecase/batch_usecase.dart';
-import '../../features/course/data/models/course_hive_model.dart';
-import '../../features/course/data/repository/course_local_repository.dart';
-import '../../features/course/domain/repository/course_repository.dart';
+import '../../features/batch/data/repositories/batch_remote_repository.dart';
 
 final getIt = GetIt.instance;
 
 void setUpLocator() {
-  //----------------------- Hive Database Service -----------------------
+  //----------------------- Hive Database and Dio Service -----------------------
   getIt.registerLazySingleton<HiveService>(
     () => HiveService(),
+  );
+
+  getIt.registerLazySingleton<Dio>(
+    () => Dio(),
+  );
+
+  getIt.registerLazySingleton<DioClient>(
+    // () => DioClient(getIt())..dio,
+    () => DioClient(getIt()),
   );
 
   //----------------------- Hive Models -----------------------
@@ -29,9 +41,14 @@ void setUpLocator() {
     () => CourseHiveModel.empty(),
   );
 
+  //----------------------- API Models -----------------------
+  getIt.registerLazySingleton<BatchApiModel>(
+    () => BatchApiModel.empty(),
+  );
+
   //----------------------- Repositories -----------------------
   getIt.registerLazySingleton<BatchRepository>(
-    () => BatchLocalRepository(getIt(), getIt()),
+    () => BatchRemoteRepository(getIt(), getIt()),
   );
 
   getIt.registerLazySingleton<CourseRepository>(

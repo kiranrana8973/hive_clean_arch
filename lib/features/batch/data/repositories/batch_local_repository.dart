@@ -46,7 +46,6 @@ class BatchLocalRepository implements BatchRepository {
   Future<Either<Failure, List<BatchEntity>>> getAllBatches() async {
     try {
       final batches = await _hiveService.getBatches();
-
       return Right(_batchHiveModel.toBatchEntities(batches));
     } catch (e) {
       return Left(Failure(error: e.toString()));

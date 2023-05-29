@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_clean_arch/app/app.dart';
-import 'package:hive_clean_arch/features/batch/domain/usecase/batch_usecase.dart';
 import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
 import 'package:hive_clean_arch/features/course/domain/usecase/course_usecase.dart';
 import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
@@ -9,9 +8,7 @@ import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
 import 'app/di/di.dart';
 import 'app/networking/local/hive_service.dart';
 import 'features/auth/ui/login/login_cubit.dart';
-import 'features/auth/ui/login/login_navigator.dart';
 import 'features/auth/ui/register/register_cubit.dart';
-import 'features/auth/ui/register/register_navigator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +21,12 @@ void main() {
       providers: [
         BlocProvider<LoginCubit>(
           create: (context) => LoginCubit(
-            getIt.get<LoginNavigator>(),
+            getIt(),
           ),
         ),
         BlocProvider<RegisterCubit>(
           create: (context) => RegisterCubit(
-            getIt.get<RegisterNavigator>(),
+            getIt(),
           ),
         ),
         BlocProvider<CourseCubit>(
@@ -37,9 +34,8 @@ void main() {
             getIt.get<CourseUseCase>(),
           ),
         ),
-        BlocProvider(
-          create: (context) =>
-              BatchCubit(getIt.get<BatchUseCase>())..getAllBatches(),
+        BlocProvider<BatchCubit>(
+          create: (context) => BatchCubit(getIt())..getAllBatches(),
         )
       ],
       child: const App(),
