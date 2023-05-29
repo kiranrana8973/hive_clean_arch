@@ -9,7 +9,6 @@ import '../../../batch/domain/entity/batch_entity.dart';
 import '../../../batch/ui/batch_state.dart';
 import '../../../course/domain/entity/course.dart';
 import '../../../course/ui/course_state.dart';
-import '../../domain/entity/student_enitity.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -47,23 +46,23 @@ class _RegisterViewState extends State<RegisterView> {
 
   addStudent() {
     if (_key.currentState!.validate()) {
-      final student = Student(
-        fname: _fnameController.text,
-        lname: _lnameController.text,
-        phone: _phoneController.text,
-        batch: _dropDownValue!,
-        course: _lstCourseSelected,
-        username: _usernameController.text,
-        password: _passwordController.text,
-      );
+      // final student = Student(
+      //   fname: _fnameController.text,
+      //   lname: _lnameController.text,
+      //   phone: _phoneController.text,
+      //   batch: _dropDownValue!,
+      //   course: _lstCourseSelected,
+      //   username: _usernameController.text,
+      //   password: _passwordController.text,
+      // );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Student added successfully'),
-          backgroundColor: Colors.green,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text('Student added successfully'),
+      //     backgroundColor: Colors.green,
+      //     behavior: SnackBarBehavior.floating,
+      //   ),
+      // );
     }
   }
 
@@ -195,6 +194,7 @@ class _RegisterViewState extends State<RegisterView> {
                             );
                     },
                   ),
+                  _gap,
                   TextFormField(
                     controller: _usernameController,
                     decoration: const InputDecoration(

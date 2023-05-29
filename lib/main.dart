@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_clean_arch/app/app.dart';
+import 'package:hive_clean_arch/features/batch/domain/usecase/batch_usecase.dart';
 import 'package:hive_clean_arch/features/batch/ui/batch_cubit.dart';
 import 'package:hive_clean_arch/features/course/domain/repository/course_repository.dart';
 import 'package:hive_clean_arch/features/course/ui/course_cubit.dart';
@@ -11,7 +12,6 @@ import 'features/auth/ui/login/login_cubit.dart';
 import 'features/auth/ui/login/login_navigator.dart';
 import 'features/auth/ui/register/register_cubit.dart';
 import 'features/auth/ui/register/register_navigator.dart';
-import 'features/batch/domain/repository/batch_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +39,7 @@ void main() {
         ),
         BlocProvider(
           create: (context) =>
-              BatchCubit(getIt.get<BatchRepository>())..getAllBatches(),
+              BatchCubit(getIt.get<BatchUseCase>())..getAllBatches(),
         )
       ],
       child: const App(),
