@@ -13,6 +13,7 @@ import 'package:hive_clean_arch/features/course/data/repository/course_local_rep
 import 'package:hive_clean_arch/features/course/domain/repository/course_repository.dart';
 import 'package:hive_clean_arch/features/course/domain/usecase/course_usecase.dart';
 
+import '../../features/batch/data/repositories/batch_local_repository.dart';
 import '../../features/batch/data/repositories/batch_remote_repository.dart';
 
 final getIt = GetIt.instance;
@@ -47,10 +48,16 @@ void setUpLocator() {
   );
 
   //----------------------- Repositories -----------------------
-  getIt.registerLazySingleton<BatchRepository>(
-    () => BatchRemoteRepository(getIt(), getIt()),
-  );
+  // Check for the internet connection here
 
+  bool isNetworkConnected = true;
+  getIt.registerLazySingleton<BatchRepository>(() => isNetworkConnected
+      ? BatchRemoteRepository(getIt(), getIt())
+      : BatchLocalRepository(getIt(), getIt()));
+
+  // getIt.registerLazySingleton<BatchRepository>(
+  //   () => BatchLocalRepository(getIt(), getIt()),
+  // );
   getIt.registerLazySingleton<CourseRepository>(
     () => CourseLocalRepository(getIt(), getIt()),
   );
