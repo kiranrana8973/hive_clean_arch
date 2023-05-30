@@ -31,8 +31,14 @@ class BatchRemoteRepository implements BatchRepository {
   Future<Either<Failure, List<BatchEntity>>> getAllBatches() async {
     try {
       final response = await _dioClient.dio.get(Endpoints.batchURL);
-      BatchDto batchDto = BatchDto.fromJson(response.data);
-      return Right(_batchApiModel.toBatchEntities(batchDto.data!));
+      if (response.statusCode == 200) {
+        BatchDto batchDto = BatchDto.fromJson(response.data);
+        return Right(_batchApiModel.toBatchEntities(batchDto.data!));
+      } else {
+        return Left(
+          Failure(error: response.statusMessage.toString()),
+        );
+      }
     } on DioError catch (e) {
       return Left(
         Failure(
